@@ -13,6 +13,7 @@ namespace Library.BL.IServices
         // return one item or more searching 
         List<FileContainer> GetByName(string name);
 
+        FileContainer GetFileById(int Id);
         bool AddFile(FileContainer file);
 
         bool DeleteFile(FileContainer file);

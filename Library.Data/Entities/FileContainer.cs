@@ -17,5 +17,7 @@ namespace Library.Data.Entities
         public FileType FileType { get; set; }
         public DateTime DateOfUploaded { get; set; }
 
+        public int NumberOfDownload { get; set; }
+
     }
 }

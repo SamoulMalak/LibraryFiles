@@ -52,6 +52,11 @@ namespace Library.BL.Service
             }
         }
 
+        public FileContainer GetFileById(int Id)
+        {
+           return context.FileContainers.Find(Id);
+        }
+
         public bool UpdateFile(FileContainer updateFile, int id)
         {
             var oldFile=context.FileContainers.Find(id);

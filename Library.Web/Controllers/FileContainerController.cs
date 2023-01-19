@@ -46,15 +46,15 @@ namespace Library.Web.Controllers
             {
                 if (model.TheFile != null)
                 {
-                    string Filename;
+                    string Filename=null;
                     string FolderPath = Path.Combine(hostingEnvironment.WebRootPath + "/Files");
-                    Filename = Guid.NewGuid() + model.TheFile.Name;
+                    Filename = Guid.NewGuid().ToString() +"_"+ model.TheFile.FileName;
                     string filePath = Path.Combine(FolderPath, Filename);
                     model.TheFile.CopyTo(new FileStream(filePath, FileMode.Create));
                     // this part is to set the parent class info 
                     var ObjFileContaoner = new FileContainer
                     {
-                        Name=model.TheFile.Name,
+                        Name=model.Name,
                         Description = model.Description,
                         FileType = model.FileType,
 
@@ -78,16 +78,25 @@ namespace Library.Web.Controllers
             return View(model);
         }
 
-        //[HttpGet]
-        //public IActionResult List() 
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public IActionResult Details(int Id)
+        {
+            var model =fileServices.GetFileById(Id);
+            return View(model);
+        }
 
-        //[HttpPost]
-        //public IActionResult List()
-        //{
-        //    return View();
-        //}
+
+        [HttpGet("download")]
+        public IActionResult Download(string FileName,string FilePath)
+        {
+            string filePath = FilePath;
+
+            string fileName =FileName;
+
+            byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
+            return File(fileBytes, "application/force-download", fileName);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Library.Web.Models.Account;
+using Library.Web.Models.Helper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -73,7 +74,17 @@ namespace Library.Web.Controllers
                 }
                 else
                 {
-                    return RedirectToPage("Error");
+                    var errorModel = new ErrorModel
+                    {
+                        ErrorName = "Log In Error",
+                        ErrorDescription = "An error occur while Loging in ,, pleace Check Your internet" +
+                        "and Try againe to Log In",
+                        ActionRedirect="LogIn",
+                        ControllerRedirect="Account",
+                        ButtonName="Log In Again"
+                        
+                    };
+                    return View("/Views/Shared/Error.cshtml",errorModel);
                 }
                
             }
@@ -112,6 +123,21 @@ namespace Library.Web.Controllers
 
             }
 
+        }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<IActionResult> IsExistUserName(string username )
+        {
+           var userResult = await userManager.FindByNameAsync(username);
+            if (userResult != null)
+            { 
+                return Json(true);
+            }
+            else
+            {
+                return Json($"There is no User Name  with this name \"{username}\" ");
+            }
         }
     }
 }

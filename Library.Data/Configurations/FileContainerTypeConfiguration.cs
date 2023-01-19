@@ -14,6 +14,7 @@ namespace Library.Data.Configurations
             
             model.Property(x => x.Description).HasDefaultValue("No description");
             model.Property(x => x.DateOfUploaded).HasDefaultValue(DateTime.UtcNow);
+            model.Property(x=>x.NumberOfDownload).HasDefaultValue(0);
 
            
         }
